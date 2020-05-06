@@ -9,7 +9,7 @@ class Admin(commands.Cog):
         """Initialise cog attributes."""
         self.bot = bot
 
-    @commands.has_role('Director')
+    @commands.has_any_role('Director', 'Puppet Masters')
     @commands.command()
     async def modify(
         self, ctx: commands.Context, user: discord.Member, target: str, difference: int
@@ -43,7 +43,7 @@ class Admin(commands.Cog):
             else:
                 await ctx.send('Invalid field. Please use `exp` or `gold`.')
             
-    @commands.has_role('Director')
+    @commands.has_any_role('Director', 'Puppet Masters')
     @commands.command()
     async def rewardbump(self, ctx: commands.Context, user: discord.Member) -> None:
         """Reward a player with 15 gold for bumping the server.
@@ -59,7 +59,7 @@ class Admin(commands.Cog):
             message = f'Given 15 gold to {user.mention}. Thanks for bumping!'
             await ctx.send(message)
 
-    @commands.has_role('Director')
+    @commands.has_any_role('Director', 'Puppet Masters')
     @commands.command()
     async def set(
         self, ctx: commands.Context, user: discord.Member, target: str, value: int
@@ -82,7 +82,7 @@ class Admin(commands.Cog):
             else:
                 await ctx.send('Invalid field. Please use `exp` or `gold`.')
                 
-    @commands.has_role('Director')
+    @commands.has_any_role('Director', 'Puppet Masters')
     @commands.command()
     async def toggldm(self, ctx: commands.Context, user: discord.Member) -> None:
         """Toggle someone having the DungeonMaster role.
