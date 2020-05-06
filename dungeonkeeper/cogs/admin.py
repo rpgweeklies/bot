@@ -81,7 +81,23 @@ class Admin(commands.Cog):
                         )
             else:
                 await ctx.send('Invalid field. Please use `exp` or `gold`.')
-
+                
+    @commands.has_role('Director')
+    @commands.command()
+    async def toggldm(self, ctx: commands.Context, user: discord.Member) -> None:
+        """Toggle someone having the DungeonMaster role.
+        
+        >toggledm tablesalt"""
+        sessnotify = await commands.RoleConverter().convert(ctx, "DM")
+        roles = user.roles
+        if sessnotify in roles:
+            roles.remove(sessnotify)
+            await user.edit(roles=roles)
+            await ctx.send(f"{user.mention} is no longer a DM.")
+        else:
+            roles.append(sessnotify)
+            await user.edit(roles=roles)
+            await ctx.send(f"{user.mention} is now a DM.")
 
 def setup(bot: commands.Bot) -> None:
     bot.add_cog(Admin(bot))
