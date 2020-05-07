@@ -14,9 +14,6 @@ class Shop(commands.Cog):
         """Buy a role from the shop!
         
         >buyrole <rolename>"""
-        if any(type(i) != str for i in rolename):
-            await ctx.send("Why did you even try that?")
-            return
         rolename = " ".join(rolename).lower()
         try:
             goldcost, expreq = roleshop[rolename]
@@ -27,7 +24,7 @@ class Shop(commands.Cog):
         usergold = await get_field("gold", user.id)
         userexp = await get_field("experience", user.id)
         if usergold == None or userexp == None:
-            await ctx.send("You haven't logged in yet!")
+            await ctx.send("You haven't logged in yet! You can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
             return
         if userexp < expreq:
             await ctx.send("You don't have enough experience to buy this role!")
