@@ -20,28 +20,27 @@ class Admin(commands.Cog):
         >modify tablesalt gold -100
         >modify Aperture exp +20
         """
-        for field in ('experience', 'gold'):
-            if field.startswith(target):
-                value = await get_field(field, user.id)
-                if value is None:
-                    await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
+        db_map = {"exp":"experience","gold":"gold"}
+        if target in db_map.keys():
+            value = await get_field(db_map[target], user.id)
+            if value is None:
+                await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
+            else:
+                value += difference
+                await set_field(db_map[target], user.id, value)
+                if difference >= 0:
+                    message = 'Added {change} {category} to {user}. '
                 else:
-                    value += difference
-                    await set_field(field, user.id, value)
-                    if difference >= 0:
-                        message = 'Added {change} {category} to {user}. '
-                    else:
-                        message = 'Removed {change} {category} from {user}. '
-                    message += 'They now have {total} {category}!'
-
-                    await ctx.send(message.format(
+                    message = 'Removed {change} {category} from {user}. '
+                message += 'They now have {total} {category}!'
+                await ctx.send(message.format(
                         total=value,
-                        category=field,
+                        category=db_map[target],
                         user=user.mention,
                         change=abs(difference)
                     ))
-            else:
-                await ctx.send('Invalid field. Please use `exp` or `gold`.')
+        else:
+            await ctx.send('Invalid field. Please use `exp` or `gold`.')
             
     @commands.has_any_role('Director', 'Puppet Masters')
     @commands.command()
@@ -70,17 +69,17 @@ class Admin(commands.Cog):
         >set tablesalt gold 0
         >set Aperture exp 30
         """
-        for field in ('experience', 'gold'):
-            if field.startswith(target):
-                if not await user_exists(user.id):
-                    await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
-                else:
-                    await set_field(field, user.id, value)
-                    await ctx.send(
-                        f"Set {user.mention}'s {field} to {value}!"
-                        )
+        db_map = {"exp":"experience","gold":"gold"}
+        if target in db_map.keys():
+            if not await user_exists(user.id):
+                await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
             else:
-                await ctx.send('Invalid field. Please use `exp` or `gold`.')
+                await set_field(field, user.id, value)
+                await ctx.send(
+                    f"Set {user.mention}'s {field} to {value}!"
+                    )
+        else:
+            await ctx.send('Invalid field. Please use `exp` or `gold`.')
                 
     @commands.has_any_role('Director', 'Puppet Masters')
     @commands.command()

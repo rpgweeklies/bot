@@ -22,16 +22,18 @@ class DungeonMaster(commands.Cog):
         """
         if reward_class not in ('player', 'ondeck', 'spectator'):
             return await ctx.send("Reward class must be one of: player, ondeck, spectator")
+        if not await user_exists(user.id):
+            return await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
         gold = await get_field("gold", user.id)
         exp = await get_field("experience", user.id)
+        if gold is None or exp is None:
+            return await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
         gold_reward, exp_reward = rewards.get(reward_class.lower())
         gold += gold_reward
         exp += exp_reward
         await set_field("gold", user.id, gold)
         await set_field("experience", user.id, exp)
-        if not user_exists(user.id):
-            await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
-        elif reward_class == "spectator":
+        if reward_class == "spectator":
             await ctx.send(
                 f"{user.mention} has been rewarded with {gold_reward} gold. "
                 f"They now have {gold} gold!"
