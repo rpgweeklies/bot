@@ -74,9 +74,9 @@ class Admin(commands.Cog):
             if not await user_exists(user.id):
                 await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
             else:
-                await set_field(field, user.id, value)
+                await set_field(db_map[target], user.id, value)
                 await ctx.send(
-                    f"Set {user.mention}'s {field} to {value}!"
+                    f"Set {user.mention}'s {db_map[target]} to {value}!"
                     )
         else:
             await ctx.send('Invalid field. Please use `exp` or `gold`.')
