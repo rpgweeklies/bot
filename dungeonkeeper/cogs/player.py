@@ -17,8 +17,10 @@ class Player(commands.Cog):
         """
         player = player or ctx.author
         gold = await get_field("gold", player.id)
-        if gold is None:
-            await ctx.send(f"{player.mention} hasn't signed in yet!")
+        if gold is None and player is not ctx.author:
+            await ctx.send(f"{player.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
+        elif gold is None and player is ctx.author:
+            await ctx.send(f"You haven't signed in yet! You can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
         elif player is ctx.author:
             await ctx.send(f"{player.mention}, you have {gold} gold!")
         else:
@@ -47,8 +49,10 @@ class Player(commands.Cog):
         """
         player = player or ctx.author
         experience = await get_field("experience", player.id)
-        if experience is None:
-            await ctx.send(f"{player.mention} hasn't signed in yet!")
+        if experience is None and player is not ctx.author:
+            await ctx.send(f"{player.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
+        if experience is None and player is ctx.author:
+            await ctx.send(f"You haven't signed in yet! You can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
         elif player is ctx.author:
             await ctx.send(f"{player.mention}, you have {experience} experience!")
         else:
