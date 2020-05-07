@@ -45,7 +45,7 @@ class Miscellaneous(commands.Cog):
             embed.add_field(name="Date and Time", value=datetime.datetime.fromtimestamp(campaign['datetime']).strftime('%c') + ' UTC', inline=False)
             embed.add_field(name="System", value=campaign["edition"], inline=False)
             embed.add_field(
-                name="Players",
+                name="Player slots",
                 value=campaign["max_players"]
                 if players != 999
                 else "Unlimited (training session)",

@@ -24,7 +24,7 @@ class Admin(commands.Cog):
             if field.startswith(target):
                 value = await get_field(field, user.id)
                 if value is None:
-                    await ctx.send(f"{user.mention} hasn't signed in yet!")
+                    await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
                 else:
                     value += difference
                     await set_field(field, user.id, value)
@@ -52,7 +52,7 @@ class Admin(commands.Cog):
         """
         value = await get_field("gold", user.id)
         if value is None:
-            await ctx.send(f"{user.mention} hasn't signed in yet!")
+            await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
         else:
             value += 15
             await set_field("gold", user.id, value)
@@ -73,7 +73,7 @@ class Admin(commands.Cog):
         for field in ('experience', 'gold'):
             if field.startswith(target):
                 if not await user_exists(user.id):
-                    await ctx.send(f"{user.mention} hasn't signed in yet!")
+                    await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
                 else:
                     await set_field(field, user.id, value)
                     await ctx.send(
@@ -88,6 +88,7 @@ class Admin(commands.Cog):
         """Toggle someone having the DungeonMaster role.
         
         >toggledm tablesalt"""
+        # TODO: Maybe make this influence the site too, and vice versa
         sessnotify = await commands.RoleConverter().convert(ctx, "DM")
         roles = user.roles
         if sessnotify in roles:

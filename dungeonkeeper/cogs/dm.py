@@ -30,7 +30,7 @@ class DungeonMaster(commands.Cog):
         await set_field("gold", user.id, gold)
         await set_field("experience", user.id, exp)
         if not user_exists(user.id):
-            await ctx.send(f"{user.mention} hasn't signed in yet!")
+            await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
         elif reward_class == "spectator":
             await ctx.send(
                 f"{user.mention} has been rewarded with {gold_reward} gold. "
