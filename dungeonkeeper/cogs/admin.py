@@ -44,18 +44,19 @@ class Admin(commands.Cog):
             
     @commands.has_any_role('Director', 'Puppet Masters')
     @commands.command()
-    async def rewardbump(self, ctx: commands.Context, user: discord.Member) -> None:
-        """Reward a player with 10 gold for bumping the server.
+    async def rewardbump(self, ctx: commands.Context, user: discord.Member, quan: int = 1) -> None:
+        """Reward a player with 10*n gold for bumping the server.
         
         >rewardbump tablesalt
+        >rewardbump tablesalt 2
         """
         value = await get_field("gold", user.id)
         if value is None:
             await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
         else:
-            value += 10
+            value += (10 * quan)
             await set_field("gold", user.id, value)
-            message = f'Given 10 gold to {user.mention}. Thanks for bumping!'
+            message = f'Given {10*quan} gold to {user.mention}. Thanks for bumping!'
             await ctx.send(message)
 
     @commands.has_any_role('Director', 'Puppet Masters')
