@@ -23,7 +23,7 @@ class Shop(commands.Cog):
         user = ctx.author
         usergold = await get_field("gold", user.id)
         userexp = await get_field("experience", user.id)
-        if usergold == None or userexp == None:
+        if usergold is None or userexp is None:
             await ctx.send("You haven't logged in yet! You can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
             return
         if userexp < expreq:

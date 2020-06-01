@@ -21,7 +21,7 @@ class Admin(commands.Cog):
         >modify Aperture exp +20
         """
         db_map = {"exp":"experience","gold":"gold"}
-        if target in db_map.keys():
+        if target in db_map:
             value = await get_field(db_map[target], user.id)
             if value is None:
                 await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
@@ -71,7 +71,7 @@ class Admin(commands.Cog):
         >set Aperture exp 30
         """
         db_map = {"exp":"experience","gold":"gold"}
-        if target in db_map.keys():
+        if target in db_map:
             if not await user_exists(user.id):
                 await ctx.send(f"{user.mention} hasn't signed in yet! They can sign in at https://rpgweeklies.ml/ to start earning gold & experience.")
             else:
